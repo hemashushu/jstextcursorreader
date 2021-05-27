@@ -1,0 +1,31 @@
+{
+  "name": "jstextcursorreader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemashushu/jstextcursorreader.git"
+  },
+  "keywords": [
+    "text",
+    "editor"
+  ],
+  "author": "Hippo Spark <hippospark@gmail.com> (https://twitter.com/hemashushu)",
+  "license": "SEE LICENSE IN <LICENSE.md>",
+  "bugs": {
+    "url": "https://github.com/hemashushu/jstextcursorreader/issues"
+  },
+  "homepage": "https://github.com/hemashushu/jstextcursorreader#readme",
+  "devDependencies": {
+    "mocha": "^8.4.0"
+  },
+  "dependencies": {
+    "jsexception": "github:hemashushu/jsexception",
+    "jsstringutils": "github:hemashushu/jsstringutils",
+    "jstextselection": "github:hemashushu/jstextselection"
+  }
+}
