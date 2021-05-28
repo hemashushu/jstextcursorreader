@@ -59,11 +59,75 @@ describe('TextCursorReader Test', () => {
         assert.equal(cft2, '');
     });
 
+    it('Test readBack()/readForward() - with \\n trail', () => {
+
+        let text1 = '012345678\n';
+        // ' 0 1 2 3 4 5 6 7 8 \n'   <-- text
+        //  0 1 2 3 4 5 6 7 8 9  10  <-- position
+
+        let selection1 = new TextSelection(3, 6); // 中间位置 '345'
+        let reader1 = new TextCursorReader(text1, selection1);
+
+        let cb1 = reader1.readBack(1);
+        assert.equal(cb1, '2');
+
+        let cb2 = reader1.readBack(2);
+        assert.equal(cb2, '12');
+
+        let cb3 = reader1.readBack(3);
+        assert.equal(cb3, '012');
+
+        let cb4 = reader1.readBack(4);
+        assert.equal(cb4, '012');
+
+        let cf1 = reader1.readForward(1);
+        assert.equal(cf1, '6');
+
+        let cf2 = reader1.readForward(2);
+        assert.equal(cf2, '67');
+
+        let cf3 = reader1.readForward(3);
+        assert.equal(cf3, '678');
+
+        let cf4 = reader1.readForward(4);
+        assert.equal(cf4, '678');
+
+        let selection2 = new TextSelection(0); // 开始位置
+        let reader2 = new TextCursorReader(text1, selection2);
+
+        let cbh1 = reader2.readBack(1);
+        assert.equal(cbh1, '');
+
+        let cbh2 = reader2.readBack(2);
+        assert.equal(cbh2, '');
+
+        let cfh1 = reader2.readForward(1);
+        assert.equal(cfh1, '0');
+
+        let cfh2 = reader2.readForward(2);
+        assert.equal(cfh2, '01');
+
+        let selection3 = new TextSelection(10); // 结束位置
+        let reader3 = new TextCursorReader(text1, selection3);
+
+        let cbt1 = reader3.readBack(1);
+        assert.equal(cbt1, '');
+
+        let cbt2 = reader3.readBack(2);
+        assert.equal(cbt2, '');
+
+        let cft1 = reader3.readForward(1);
+        assert.equal(cft1, '');
+
+        let cft2 = reader3.readForward(2);
+        assert.equal(cft2, '');
+    });
+
     it('Test readBack()/readForward() - multiline', () => {
 
         let text1 = '0123\n5678\nabcd\nlmno';
-        //                       11111 1111
-        //           01234 56789 01234 5678 <-- index/offset
+        //                       11111 11111
+        //           01234 56789 01234 56789 <-- index/offset
 
         let selection1 = new TextSelection(6, 11); // '678\na'
         let reader1 = new TextCursorReader(text1, selection1);
@@ -118,6 +182,34 @@ describe('TextCursorReader Test', () => {
 
         let cfh2 = reader3.readForward(2);
         assert.equal(cfh2, '');
+    });
+
+    it('Test readBack()/readForward() - multiline and \\n trail', () => {
+
+        let text1 = '0123\n5678\nabcd\nlmno\n';
+        //                       11111 11111 2
+        //           01234 56789 01234 56789 0 <-- index/offset
+
+        let selection1 = new TextSelection(2, 17); // '23...lm'
+        let reader1 = new TextCursorReader(text1, selection1);
+
+        let cb1 = reader1.readBack(1);
+        assert.equal(cb1, '1');
+
+        let cb2 = reader1.readBack(2);
+        assert.equal(cb2, '01');
+
+        let cb3 = reader1.readBack(3);
+        assert.equal(cb3, '01');
+
+        let cf1 = reader1.readForward(1);
+        assert.equal(cf1, 'n');
+
+        let cf2 = reader1.readForward(2);
+        assert.equal(cf2, 'no');
+
+        let cf3 = reader1.readForward(3);
+        assert.equal(cf3, 'no');
     });
 
     it('Test moveBack()/moveForward()', () => {

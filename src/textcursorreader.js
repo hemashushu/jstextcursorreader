@@ -21,7 +21,7 @@ class TextCursorReader {
         let startOffsetOfStartLine = textSelection.start;
 
         // 光标结束位置所在行的行尾（即换行符 '\n'）的字符索引(index exclude)，
-        // 或者文本的结束位置的索引（即textContent.length，一个假象的结束位置）
+        // 或者文本的结束位置的索引（即textContent.length，一个假想的结束符的位置）
         let endOffsetOfEndLine = textSelection.end;
 
         if (startOffsetOfStartLine > 0) {
@@ -80,7 +80,8 @@ class TextCursorReader {
     /**
      * 向后移动光标
      *
-     * 只有折叠了的光标才能被移动
+     * - 当前对象的光标保持不变，只是返回新的光标。
+     * - 只有折叠了的光标才能被移动
      *
      * @param {*} charCount
      * @returns 返回 TextSelection.
@@ -97,9 +98,11 @@ class TextCursorReader {
     /**
      * 向后扩展光标
      *
-     * 即保持当前的 TextSelection.end 不变，减小 TextSelection.start。
+     * - 当前对象的光标保持不变，只是返回新的光标。
+     * - 即保持当前的 TextSelection.end 不变，减小 TextSelection.start。
+     *
      * @param {*} charCount
-     * @returns
+     * @returns 返回 TextSelection.
      */
     expandBack(charCount) {
         let startOffset = this._getBackOffset(this.textSelection.start, charCount);
@@ -110,6 +113,7 @@ class TextCursorReader {
      * 向前读取字符
      *
      * - 只能向前读到行尾（不包括换行符 \n），或者读到文本结束位置即停止。
+     *
      * @param {*} charCount
      * @returns
      */
@@ -121,7 +125,9 @@ class TextCursorReader {
     /**
      * 向前移动光标
      *
+     * - 当前对象的光标保持不变，只是返回新的光标。
      * - 只有折叠了的光标才能被移动
+     *
      * @param {*} charCount
      * @returns 返回 TextSelection.
      */
@@ -137,9 +143,11 @@ class TextCursorReader {
     /**
      * 向前扩展光标
      *
-     * 即保持当前的 TextSelection.start 不变，增加 TextSelection.end。
+     * - 当前对象的光标保持不变，只是返回新的光标。
+     * - 即保持当前的 TextSelection.start 不变，增加 TextSelection.end。
+     *
      * @param {*} charCount
-     * @returns
+     * @returns 返回 TextSelection.
      */
     expandForward(charCount) {
         let endOffset = this._getForwardOffset(this.textSelection.end, charCount);
